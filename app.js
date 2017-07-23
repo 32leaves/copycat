@@ -17,7 +17,7 @@
 var DriveManager = require('./lib/drivemanager');
 
 const manager = new DriveManager("Out And About");
-manager.on("drivesUpdated", (added, removed) => {
+manager.on("driveUpdate", (added, removed) => {
     console.log("Added ", added);
     console.log("Removed ", removed);
 });
