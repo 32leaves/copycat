@@ -1,0 +1,24 @@
+{
+  "name": "copycat",
+  "version": "0.0.1",
+  "description": "Copies SD card contents to external HD, written in Javascript (NodeJS). This is useful for backing up SD card content to a larger HD drive, e.g. while traveling.",
+  "main": "index.js",
+  "scripts": {
+    "copycat": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/32leaves/copycat.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/32leaves/copycat/issues"
+  },
+  "homepage": "https://github.com/32leaves/copycat#readme",
+  "dependencies": {
+    "drivelist": "^5.0.27"
+  }
+}
