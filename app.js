@@ -15,9 +15,26 @@
 'use strict';
 
 var DriveManager = require('./lib/drivemanager');
+var filecopy = require('./lib/filecopy');
+var WebUI = require('./lib/webui');
 
-const manager = new DriveManager("Out And About");
-manager.on("driveUpdate", (added, removed) => {
-    console.log("Added ", added);
-    console.log("Removed ", removed);
-});
+
+const ui = new WebUI();
+ui.start();
+
+var jobid = "foobar";
+setTimeout(() => {
+    ui._createJob(jobid, jobid);
+}, 5000);
+setTimeout(() => {
+    ui._setProgress(jobid, 22);
+}, 10000);
+
+
+// const manager = new DriveManager("Out And About");
+// manager.on("driveUpdate", (added, removed) => {
+//     console.log("Added ", added);
+//     console.log("Removed ", removed);
+
+    
+// });

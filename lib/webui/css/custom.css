@@ -1,0 +1,31 @@
+#header_row .three {
+    text-align: right;
+}
+
+.job {
+    padding-bottom: 5px;
+    padding-top: 10px;
+
+    border-bottom: 1px solid #aaa;
+}
+.job:first-child {
+    padding-top: 0px;
+}
+.job:last-child {
+    border: 0px solid white;
+}
+
+.progressbar {
+    height: 30px;
+    border: 1px solid #ddd;
+    border-radius: 2px;
+}
+.progressbar .bar {
+    height: 100%;
+    background-color: #ddd;
+    border-radius: 2px;
+}
+
+.progress {
+    padding-left: 1em;
+}

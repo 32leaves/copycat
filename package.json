@@ -19,6 +19,9 @@
   },
   "homepage": "https://github.com/32leaves/copycat#readme",
   "dependencies": {
-    "drivelist": "^5.0.27"
+    "drivelist": "^5.0.27",
+    "express": "^4.15.3",
+    "rsync": "^0.6.1",
+    "socket.io": "^2.0.3"
   }
 }
