@@ -15,21 +15,60 @@
 'use strict';
 
 var DriveManager = require('./lib/drivemanager');
-var filecopy = require('./lib/filecopy');
+var FakeDriveManager = require('./lib/fakedrivemanager');
+var CopyManager = require('./lib/copymanager');
 var WebUI = require('./lib/webui');
 
 
-const ui = new WebUI();
-ui.start();
+// const driveManager = new DriveManager((drive) => {
+//     if(drive.name.indexOf("Out") > -1) {
+//         return 10;
+//     } else {
+//         return 20;
+//     }
+// });
+const driveManager = new FakeDriveManager();
+driveManager.on("driveUpdate", (added, removed) => {
+    console.log("Drives added ", added);
+    console.log("Drives removed ", removed);
+});
 
-var jobid = "foobar";
-setTimeout(() => {
-    ui._createJob(jobid, jobid);
-}, 5000);
-setTimeout(() => {
-    ui._setProgress(jobid, 22);
-}, 10000);
+const copyManager = new CopyManager(driveManager);
+copyManager.on('newJob', (job) => {
+    console.log('New job', job);
 
+    job.on('progress', (perc) => {
+        console.log('Progress', job.id(), perc);
+    });
+    job.on('done', () => {
+        console.log('Done', job.id());
+    });
+});
+
+driveManager.addDrive({
+    'priority': 10,
+    'mountpoint': '/temp/target',
+    'name': 'target'
+});
+driveManager.addDrive({
+    'priority': 20,
+    'mountpoint': '/temp/source',
+    'name': 'source'
+});
+
+// const ui = new WebUI();
+// ui.start();
+
+// var jobid = "foobar";
+// setTimeout(() => {
+//     ui._createJob(jobid, jobid);
+// }, 5000);
+// setTimeout(() => {
+//     ui._setProgress(jobid, 22);
+// }, 10000);
+// setTimeout(() => {
+//     ui._setDone(jobid);
+// }, 15000);
 
 // const manager = new DriveManager("Out And About");
 // manager.on("driveUpdate", (added, removed) => {
