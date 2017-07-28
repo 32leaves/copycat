@@ -47,12 +47,12 @@ copyManager.on('newJob', (job) => {
 
 driveManager.addDrive({
     'priority': 10,
-    'mountpoint': '/temp/target',
+    'mountpoint': '/tmp/target',
     'name': 'target'
 });
 driveManager.addDrive({
     'priority': 20,
-    'mountpoint': '/temp/source',
+    'mountpoint': '/tmp/source',
     'name': 'source'
 });
 
