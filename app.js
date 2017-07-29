@@ -37,6 +37,9 @@ const copyManager = new CopyManager(driveManager);
 copyManager.on('newJob', (job) => {
     console.log('New job', job);
 
+    job.on('error', (err) => {
+        console.log('Error', job.id(), error);
+    });
     job.on('progress', (perc) => {
         console.log('Progress', job.id(), perc);
     });
@@ -45,19 +48,8 @@ copyManager.on('newJob', (job) => {
     });
 });
 
-driveManager.addDrive({
-    'priority': 10,
-    'mountpoint': '/tmp/target',
-    'name': 'target'
-});
-driveManager.addDrive({
-    'priority': 20,
-    'mountpoint': '/tmp/source',
-    'name': 'source'
-});
-
-// const ui = new WebUI();
-// ui.start();
+const ui = new WebUI();
+ui.start();
 
 // var jobid = "foobar";
 // setTimeout(() => {

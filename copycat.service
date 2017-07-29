@@ -1,0 +1,13 @@
+[Unit]
+Description=Copycat
+After=network.target
+
+[Service]
+Type=simple
+User=pi
+WorkingDirectory=/home/pi
+ExecStart=/usr/bin/node /home/pi/copycat/app.js
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target
