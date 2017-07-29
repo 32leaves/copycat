@@ -21,9 +21,9 @@ var WebUI = require('./lib/webui');
 
 
 const driveManager = new DriveManager((drive) => {
-    if(drive.name.indexOf('Backend') > -1) {
+    if(drive.description.indexOf('Backend') > -1) {
         return 0;
-    } else if(drive.name.indexOf('Out') > -1) {
+    } else if(drive.description.indexOf('External') > -1) {
         return 10;
     } else {
         return 20;
@@ -47,11 +47,11 @@ copyManager.on('newJob', (job) => {
     ui.createJob(job.id(), job.source);
 
     job.on('error', (err) => {
-        console.log('Error', job.id(), error);
+        console.log('Error', job.id(), err);
         ui.setError(job.id(), error.toString());
     });
     job.on('progress', (perc) => {
-        console.log('Progress', job.id(), perc);
+        console.log('Progress', job.id(), perc.percentage);
         ui.setProgress(job.id(), perc);
     });
     job.on('done', () => {
