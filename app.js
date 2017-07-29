@@ -2,7 +2,7 @@
  * Copyright (c) 2015 Christian Weichel
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
+ * of this software and associated documentation files (the 'Software'), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
@@ -20,38 +20,47 @@ var CopyManager = require('./lib/copymanager');
 var WebUI = require('./lib/webui');
 
 
-// const driveManager = new DriveManager((drive) => {
-//     if(drive.name.indexOf("Out") > -1) {
-//         return 10;
-//     } else {
-//         return 20;
-//     }
-// });
-const driveManager = new FakeDriveManager();
-driveManager.on("driveUpdate", (added, removed) => {
-    console.log("Drives added ", added);
-    console.log("Drives removed ", removed);
+const driveManager = new DriveManager((drive) => {
+    if(drive.name.indexOf('Backend') > -1) {
+        return 0;
+    } else if(drive.name.indexOf('Out') > -1) {
+        return 10;
+    } else {
+        return 20;
+    }
+});
+driveManager.on('driveUpdate', (added, removed) => {
+    console.log('Drives added ', added);
+    console.log('Drives removed ', removed);
 });
 
 const copyManager = new CopyManager(driveManager);
-copyManager.on('newJob', (job) => {
-    console.log('New job', job);
-
-    job.on('error', (err) => {
-        console.log('Error', job.id(), error);
-    });
-    job.on('progress', (perc) => {
-        console.log('Progress', job.id(), perc);
-    });
-    job.on('done', () => {
-        console.log('Done', job.id());
-    });
-});
 
 const ui = new WebUI();
 ui.start();
 
-// var jobid = "foobar";
+driveManager.on('driveUpdate', (added, removed) => {
+    ui.setDrives(driveManager.drives);
+});
+copyManager.on('newJob', (job) => {
+    console.log('New job', job);
+    ui.createJob(job.id(), job.source);
+
+    job.on('error', (err) => {
+        console.log('Error', job.id(), error);
+        ui.setError(job.id(), error.toString());
+    });
+    job.on('progress', (perc) => {
+        console.log('Progress', job.id(), perc);
+        ui.setProgress(job.id(), perc);
+    });
+    job.on('done', () => {
+        console.log('Done', job.id());
+        ui.setDone(job.id());
+    });
+});
+
+// var jobid = 'foobar';
 // setTimeout(() => {
 //     ui._createJob(jobid, jobid);
 // }, 5000);
@@ -62,10 +71,10 @@ ui.start();
 //     ui._setDone(jobid);
 // }, 15000);
 
-// const manager = new DriveManager("Out And About");
-// manager.on("driveUpdate", (added, removed) => {
-//     console.log("Added ", added);
-//     console.log("Removed ", removed);
+// const manager = new DriveManager('Out And About');
+// manager.on('driveUpdate', (added, removed) => {
+//     console.log('Added ', added);
+//     console.log('Removed ', removed);
 
     
 // });
