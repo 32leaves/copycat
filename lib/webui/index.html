@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="/css/custom.css">
 
     <script type="text/javascript" src="/js/jquery-3.2.1.js"></script>
+    <script type="text/javascript" src="/js/screenfull.js"></script>
     <script type="text/javascript" src="/socket.io/socket.io.js"></script>
     <script type="text/javascript" src="/js/webui.js"></script>
 </head>
@@ -30,15 +31,13 @@
         <div class="container">
             <div id="header_row" class="row">
                 <div class="five columns">
-                    <h3>CopyCat</h3>
+                    <h3 id="connectionStatus">CopyCat</h3>
                 </div>
-                <div class="four columns">
-                    <strong>Destination</strong><br />
-                    <span id="destinationName">Out and About</span>
+                <div class="four columns" id="destinations">
+                    &nbsp;
                 </div>
-                <div class="three columns">
-                    <strong>Connection</strong><br />
-                    <span id="connectionStatus">offline</span>
+                <div class="three columns align-right">
+		    <input type="button" value="&#10003;" id="viewDestination">
                 </div>
             </div>
 
