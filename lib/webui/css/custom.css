@@ -9,6 +9,10 @@ body {
 .online {
     color: #77dd77;
 }
+.offline {
+    color: #ff6961;
+}
+
 
 #header_row .three {
     text-align: right;
