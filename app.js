@@ -39,7 +39,7 @@ if(os.type() == 'Windows_NT') {
     }, 5000);
 } else {
     const driveManager = new DriveManager((drive) => {
-        if(drive.description.indexOf('Backup') > -1) {
+        if(drive.name.indexOf('Backup') > -1) {
             return 0;
         } else if(drive.name.indexOf('OutAndAbout') > -1) {
             return 10;
@@ -47,15 +47,13 @@ if(os.type() == 'Windows_NT') {
             return 20;
         }
     });
-    driveManager.on('driveUpdate', (added, removed) => {
-        console.log('Drives added ', added);
-        console.log('Drives removed ', removed);
-    });
 
     const copyManager = new CopyManager(driveManager);
 
     driveManager.on('driveUpdate', (added, removed) => {
-        ui.setDrives(driveManager.drives);
+        console.log('Drives added ', added);
+        console.log('Drives removed ', removed);
+        ui.setDrives(driveManager.getDrives());
     });
     copyManager.on('newJob', (job) => {
         console.log('New job', job);
