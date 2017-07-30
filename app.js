@@ -20,6 +20,7 @@ var CopyManager = require('./lib/copymanager');
 var WebUI = require('./lib/webui');
 
 
+
 const driveManager = new DriveManager((drive) => {
     if(drive.description.indexOf('Backend') > -1) {
         return 0;
@@ -29,6 +30,7 @@ const driveManager = new DriveManager((drive) => {
         return 20;
     }
 });
+//const driveManager = new FakeDriveManager();
 driveManager.on('driveUpdate', (added, removed) => {
     console.log('Drives added ', added);
     console.log('Drives removed ', removed);
@@ -48,17 +50,28 @@ copyManager.on('newJob', (job) => {
 
     job.on('error', (err) => {
         console.log('Error', job.id(), err);
-        ui.setError(job.id(), error.toString());
+        ui.setError(job.id(), err.toString());
     });
     job.on('progress', (perc) => {
         console.log('Progress', job.id(), perc.percentage);
-        ui.setProgress(job.id(), perc);
+        ui.setProgress(job.id(), perc.percentage);
+    });
+    job.on('sync', () => {
+        console.log('Sync', job.id());
+        ui.setSyncing(job.id());
     });
     job.on('done', () => {
         console.log('Done', job.id());
         ui.setDone(job.id());
     });
 });
+
+/*
+setTimeout(() => {
+driveManager.addDrive({'priority': 10, 'mountpoint':'/tmp/dest', 'name':'dest'});
+driveManager.addDrive({'priority': 20, 'mountpoint':'/tmp/src', 'name':'src'});
+}, 5000);
+*/
 
 // var jobid = 'foobar';
 // setTimeout(() => {
