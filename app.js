@@ -22,9 +22,9 @@ var WebUI = require('./lib/webui');
 
 
 const driveManager = new DriveManager((drive) => {
-    if(drive.description.indexOf('Backend') > -1) {
+    if(drive.description.indexOf('Backup') > -1) {
         return 0;
-    } else if(drive.description.indexOf('External') > -1) {
+    } else if(drive.name.indexOf('OutAndAbout') > -1) {
         return 10;
     } else {
         return 20;
