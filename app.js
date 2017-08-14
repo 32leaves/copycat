@@ -15,6 +15,7 @@
 'use strict';
 
 var os = require('os');
+var path = require('path');
 var DriveManager = require('./lib/drivemanager');
 var FakeDriveManager = require('./lib/fakedrivemanager');
 var CopyManager = require('./lib/copymanager');
@@ -39,10 +40,10 @@ if(os.type() == 'Windows_NT') {
     }, 5000);
 } else {
     const driveManager = new DriveManager((drive) => {
-        if(drive.name.indexOf('Backup') > -1) {
+        if(drive.name.toLowerCase().indexOf('backup') > -1) {
+            return -10;
+        } else if(drive.name.indexOf('About') > -1) {
             return 0;
-        } else if(drive.name.indexOf('OutAndAbout') > -1) {
-            return 10;
         } else {
             return 20;
         }
@@ -57,7 +58,7 @@ if(os.type() == 'Windows_NT') {
     });
     copyManager.on('newJob', (job) => {
         console.log('New job', job);
-        ui.createJob(job.id(), job.source);
+        ui.createJob(job.id(), path.basename(job.source));
 
         job.on('error', (err) => {
             console.log('Error', job.id(), err);
